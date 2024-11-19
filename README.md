@@ -1,6 +1,6 @@
 # Federid Helm Chart
 
-This Helm chart deploys FederID components, including a webhook and SPIFFE helper, into a Kubernetes cluster. It provides configuration options for scaling, service definitions, security contexts, and more.
+This Helm chart deploys federid components, including a webhook and SPIFFE helper, into a Kubernetes cluster. It provides configuration options for scaling, service definitions, security contexts, and more.
 
 ## Prerequisites
 
@@ -9,16 +9,43 @@ This Helm chart deploys FederID components, including a webhook and SPIFFE helpe
 - A namespace with the required permissions if using custom namespaces.
 
 ## Installation
+Follow these steps to deploy the federid Helm Chart:
 
-To install the chart with the release name `federid`:
+### Step 1: Add the federid Helm Repository
+
+Add the official federid Helm repository to your Helm client:
 
 ```bash
-helm upgrade --install federid ./ --namespace federid --create-namespace
+helm repo add federid https://federid.github.io/helm-charts
+helm repo update
 ```
 
-### Notes:
-- The `--namespace` flag specifies the namespace to install FederID.
-- Use `--create-namespace` if the namespace doesn't already exist.
+### Step 2: Install the Chart
+Install federid into your Kubernetes cluster with the release name federid:
+
+```bash
+helm upgrade --install federid federid/federid --namespace federid --create-namespace --version 0.1.0
+```
+
+--namespace: Specifies the target namespace for federid (e.g., federid).
+--create-namespace: Automatically creates the namespace if it doesn't already exist.
+--version: Specifies the chart version to install (recommended to pin to a specific version).
+
+### Step 3: Verify the Deployment
+Check the status of the FederID webhook pods to ensure they are running:
+
+```bash
+kubectl -n federid get pods
+```
+
+If all pods are in a Running or Completed state, the installation was successful.
+
+### Step 4: Access Logs (Optional)
+To debug or inspect the webhook's logs, use the following command:
+
+```bash
+kubectl -n federid logs -l app.kubernetes.io/name=webhook
+```
 
 ## Configuration
 
@@ -32,7 +59,7 @@ You can customize the chart by overriding default values in a `values.yaml` file
 | `replicaCount`    | Number of replicas for the deployment       | `1`                   |
 | `image.repository`| Container image repository                  | `federid/webhook`    |
 | `image.pullPolicy`| Image pull policy                           | `Always`             |
-| `image.tag`       | Tag of the container image                  | `latest`             |
+| `image.tag`       | Tag of the container image                  |              |
 | `imagePullSecrets`| Secrets for pulling images from registries   | `[]`                 |
 
 ### Service Account Configuration
@@ -48,7 +75,9 @@ You can customize the chart by overriding default values in a `values.yaml` file
 
 | Parameter                         | Description                                  | Default               |
 |-----------------------------------|----------------------------------------------|-----------------------|
-| `configuration.SPIFFE_HELPER_SIDECAR_IMAGE`  | Image for the SPIFFE helper sidecar container | `federid/spiffe-helper:latest` |
+| `spiffeHelper.image.repository`| Container image repository                  | `federid/spiffe-helper`   |
+| `spiffeHelper.image.pullPolicy`| Image pull policy                           | `Always`       |
+| `spiffeHelper.image.tag`       | Tag of the container image                  |              |
 
 ### Resources Configuration
 
@@ -103,7 +132,7 @@ helm uninstall federid --namespace federid
 
 This will delete the release from the cluster.
 
-# Licensing
+## Licensing
 
 This project is licensed under the Apache License, Version 2.0.
 

@@ -1,0 +1,145 @@
+# Default values for federid.
+# This is a YAML-formatted file used for configuring values that will be passed into your Helm templates.
+# You can customize any of the following values to suit your environment and needs.
+
+namespace: federid
+# The Kubernetes namespace in which the application will be deployed.
+# Default: federid
+
+# Replica count determines how many replicas (pods) of the application will be deployed.
+# More information on ReplicaSets: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+replicaCount: 1
+# Default: 1 replica.
+
+# Image configuration specifies the container image to use for the application.
+# More information about container images: https://kubernetes.io/docs/concepts/containers/images/
+image:
+  repository: federid/webhook
+  # The container image repository.
+  # Default: federid/webhook
+
+  pullPolicy: Always
+  # This sets the pull policy for the image. The image will always be pulled, regardless of whether it exists locally.
+  # Options: Always, IfNotPresent, Never.
+  # Default: Always
+
+  tag: ""
+  # The image tag to use. If not provided, the default will be the chart's `appVersion`.
+  # Default: ""
+
+# If your container image is stored in a private repository, you can set imagePullSecrets here.
+# More information: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+imagePullSecrets: []
+# Default: empty list (no secrets defined).
+
+# Overrides for chart name and full name. These are useful for renaming the chart's resources.
+# The values will default to the release name and the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# Service account configuration allows control over the service account used by the application.
+# More details: https://kubernetes.io/docs/concepts/security/service-accounts/
+serviceAccount:
+  create: true
+  # If true, a service account will be created for the application. Set to false to use an existing service account.
+  # Default: true
+
+  automount: true
+  # If true, the ServiceAccount's API credentials will be automatically mounted into pods.
+  # Default: true
+
+  annotations: {}
+  # Optional annotations to add to the service account. Useful for integrating with other Kubernetes resources.
+  # Default: empty (no annotations)
+
+  name: "federid-webhook-admin"
+  # The name of the service account to use. If not set and 'create' is true, a name is generated using the fullname template.
+  # Default: "federid-webhook-admin"
+
+# Configuration for the sidecar container (SPIFFE helper) in the application.
+configuration:
+  SPIFFE_HELPER_SIDECAR_IMAGE: federid/spiffe-helper:0.1.0
+  # The container image for the SPIFFE helper sidecar.
+  # Default: federid/spiffe-helper:latest
+
+# Kubernetes Pod annotations allow for attaching arbitrary metadata to pods.
+# For more details on annotations: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
+podAnnotations: {}
+# Default: empty annotations.
+
+# Kubernetes Pod labels are key-value pairs used for grouping and selecting resources.
+# For more details on labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+podLabels: {}
+# Default: empty labels.
+
+# Resource requests and limits define the CPU and memory resources for the application containers.
+# It is recommended to specify these resources based on the actual needs of the application.
+resources:
+  limits:
+    cpu: 100m
+    memory: 30Mi
+    # Maximum resources the container can use. Set according to the application's resource consumption.
+  requests:
+    cpu: 100m
+    memory: 20Mi
+    # Minimum resources required for the container to start. The Kubernetes scheduler uses this to allocate resources.
+
+# Autoscaling configuration helps in automatically adjusting the number of replicas based on resource utilization.
+# More info on autoscaling: https://kubernetes.io/docs/concepts/workloads/autoscaling/
+autoscaling:
+  enabled: false
+  # If true, Horizontal Pod Autoscaler will be enabled. This adjusts the replica count based on CPU or memory usage.
+  # Default: false
+
+  minReplicas: 1
+  # Minimum number of replicas for the application. 
+  # Default: 1
+
+  maxReplicas: 100
+  # Maximum number of replicas for the application.
+  # Default: 100
+
+  targetCPUUtilizationPercentage: 80
+  # Target CPU utilization percentage that will trigger autoscaling. 
+  # Default: 80
+
+  # targetMemoryUtilizationPercentage: 80
+  # Target memory utilization percentage that will trigger autoscaling (commented out by default).
+  # Default: 80 (uncomment to enable)
+
+# NodeSelector allows specifying which nodes the application can run on based on node labels.
+nodeSelector: {}
+# Default: empty, meaning no specific node selection.
+
+# Tolerations allow the application to be scheduled onto nodes with matching taints.
+tolerations: []
+# Default: empty, meaning no tolerations are applied.
+
+# Affinity settings provide more complex node selection rules based on pod or node labels.
+affinity: {}
+# Default: empty, meaning no affinity settings are applied.
+
+# PodDisruptionBudget ensures that a certain number of pods are available during voluntary disruptions (like node drain).
+# More info: https://kubernetes.io/docs/concepts/workloads/pods/disruption-budget/
+podDisruptionBudget:
+  minAvailable: 1
+  # Minimum number of available pods during disruptions. This ensures that at least 'minAvailable' pods are running.
+  # Default: 1
+
+
+spiffe-helper:
+# Image configuration specifies the container image to use for the application.
+# More information about container images: https://kubernetes.io/docs/concepts/containers/images/
+  image:
+    repository: federid/spiffe-helper
+  # The container image for the SPIFFE helper sidecar.
+  # Default: federid/spiffe-helper
+
+    pullPolicy: Always
+    # This sets the pull policy for the image. The image will always be pulled, regardless of whether it exists locally.
+    # Options: Always, IfNotPresent, Never.
+    # Default: Always
+
+    tag: ""
+    # The image tag to use. If not provided, the default will be the chart's `appVersion`.
+    # Default: ""  

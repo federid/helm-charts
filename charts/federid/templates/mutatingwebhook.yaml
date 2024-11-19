@@ -1,0 +1,32 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    {{- include "federid.labels" . | nindent 4 }}
+  name: federid-webhook-mutating-webhook-configuration
+webhooks:
+  - admissionReviewVersions:
+      - v1
+      - v1beta1
+    clientConfig:
+      service:
+        name: federid-webhook-service
+        namespace: {{ .Values.namespace }}
+        path: /mutate-v1-pod
+    failurePolicy: Fail
+    matchPolicy: Equivalent
+    name: mutation.federid.io
+    objectSelector:
+      matchLabels:
+        federid.io/use: "true"
+    reinvocationPolicy: IfNeeded
+    rules:
+      - apiGroups:
+          - ""
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+        resources:
+          - pods
+    sideEffects: None

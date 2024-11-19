@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- include "federid.labels" . | nindent 4 }}
+  name: federid-webhook-config
+  namespace: {{ .Values.namespace }}
+data:
+  SPIFFE_HELPER_SIDECAR_IMAGE: {{ .Values.spiffe-helper.image.repository }}:{{ .Values.spiffe-helper.image.tag | default .Chart.AppVersion }}
+
+

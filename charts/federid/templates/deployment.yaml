@@ -38,7 +38,7 @@ spec:
         - args:
             - --log-level=debug
           command:
-            - /manager
+            - /federid-webhook
           env:
             - name: POD_NAMESPACE
               valueFrom:

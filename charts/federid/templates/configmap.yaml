@@ -6,6 +6,6 @@ metadata:
   name: federid-webhook-config
   namespace: {{ .Values.namespace }}
 data:
-  SPIFFE_HELPER_SIDECAR_IMAGE: {{ .Values.spiffe-helper.image.repository }}:{{ .Values.spiffe-helper.image.tag | default .Chart.AppVersion }}
+  SPIFFE_HELPER_SIDECAR_IMAGE: {{ .Values.spiffeHelper.image.repository }}:{{ .Values.spiffeHelper.image.tag | default .Chart.AppVersion }}
 
 

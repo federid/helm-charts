@@ -127,7 +127,7 @@ podDisruptionBudget:
   # Default: 1
 
 
-spiffe-helper:
+spiffeHelper:
 # Image configuration specifies the container image to use for the application.
 # More information about container images: https://kubernetes.io/docs/concepts/containers/images/
   image:

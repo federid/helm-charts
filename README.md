@@ -2,6 +2,8 @@
 
 This Helm chart deploys federid components, including a webhook and SPIFFE helper, into a Kubernetes cluster. It provides configuration options for scaling, service definitions, security contexts, and more.
 
+👉 [Federid Repository](https://github.com/federid/federid)
+
 ## Prerequisites
 
 - Kubernetes 1.19+

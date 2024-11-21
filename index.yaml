@@ -3,6 +3,18 @@ entries:
   federid:
   - apiVersion: v2
     appVersion: 0.1.0
+    created: "2024-11-21T14:42:24.844820709Z"
+    description: A Helm chart for deploying federid, a Kubernetes solution workload
+      identity federation.
+    digest: 6857f7cb4e65dc50d56bf0be622f715530ec4a78fce7e8a6981517053f79d05a
+    icon: https://federid.github.io/helm-charts/icon.png
+    name: federid
+    type: application
+    urls:
+    - https://github.com/federid/helm-charts/releases/download/federid-0.1.2/federid-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 0.1.0
     created: "2024-11-21T13:56:42.920122278Z"
     description: A Helm chart for deploying federid, a Kubernetes solution workload
       identity federation.
@@ -23,4 +35,4 @@ entries:
     urls:
     - https://github.com/federid/helm-charts/releases/download/federid-0.1.0/federid-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-21T13:56:42.920238284Z"
+generated: "2024-11-21T14:42:24.84483702Z"
